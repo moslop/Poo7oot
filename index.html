@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIGHI — خدمات البحوث الجامعية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cairo:wght@300;400;500;600;700;900&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<style>
+:root {
+  --bg:#FAFAF8; --bg2:#F4F1EA; --bg3:#EDE7D6;
+  --surf:#FFFFFF; --surf2:#F9F7F2;
+  --gold:#C4973A; --gold2:#E2B455; --gold3:#F5D08A; --goldd:#8A6420;
+  --txt:#1C1408; --txt2:#4A3B18; --txt3:#7A6540; --txti:#FAFAF8;
+  --brd:rgba(196,151,58,.2); --brd2:rgba(196,151,58,.07);
+  --shsm:0 2px 12px rgba(139,100,32,.08);
+  --shmd:0 8px 40px rgba(139,100,32,.12);
+  --shlg:0 24px 80px rgba(139,100,32,.16);
+  --tr:.35s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#050D1A; --bg2:#071224; --bg3:#0A1930;
+  --surf:#0D2040; --surf2:#102448;
+  --gold:#4A9EE8; --gold2:#6DB8F5; --gold3:#9ED0FF; --goldd:#1A6BB5;
+  --txt:#E8F2FF; --txt2:#A8C8F0; --txt3:#6090C8; --txti:#050D1A;
+  --brd:rgba(74,158,232,.2); --brd2:rgba(74,158,232,.07);
+  --shsm:0 2px 12px rgba(0,20,60,.3);
+  --shmd:0 8px 40px rgba(0,20,60,.4);
+  --shlg:0 24px 80px rgba(0,20,60,.5);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);transition:background var(--tr),color var(--tr);overflow-x:hidden;line-height:1.6}
+body.ltr{direction:ltr}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.45}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:rgba(250,250,248,.85);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--brd);transition:all var(--tr)}
+[data-theme="dark"] #nav{background:rgba(5,13,26,.9)}
+#nav.scrolled{height:60px;box-shadow:var(--shsm)}
+.nlogo{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;letter-spacing:8px;color:var(--gold);text-transform:uppercase;position:relative}
+.nlogo::before{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.ncenter{display:flex;gap:40px}
+.nlink{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);transition:color var(--tr);position:relative;padding-bottom:4px}
+.nlink::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform var(--tr);transform-origin:right}
+.nlink:hover,.nlink.act{color:var(--gold)}
+.nlink:hover::after,.nlink.act::after{transform:scaleX(1);transform-origin:left}
+.nact{display:flex;align-items:center;gap:10px}
+.cbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border:1px solid var(--brd);border-radius:3px;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--txt2);background:var(--surf);transition:all var(--tr)}
+.cbtn:hover{background:var(--gold);color:var(--txti);border-color:var(--gold);transform:translateY(-1px)}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hpd{background:var(--txt);display:flex;flex-direction:column;justify-content:center;padding:110px 64px 64px;position:relative;overflow:hidden}
+[data-theme="dark"] .hpd{background:var(--bg3)}
+.hpd::before{content:'RIGHI';position:absolute;font-family:'Playfair Display',serif;font-size:22vw;font-weight:900;color:rgba(255,255,255,.018);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;letter-spacing:-4px;line-height:1}
+.hpd::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(196,151,58,.035) 80px);pointer-events:none}
+[data-theme="dark"] .hpd::after{background:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(74,158,232,.035) 80px)}
+.hrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hbar{width:32px;height:1px;background:var(--gold)}
+.htag{font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold)}
+.hh1{font-family:'Playfair Display',serif;font-size:clamp(52px,6.5vw,96px);font-weight:900;line-height:.88;letter-spacing:-3px;color:#F8F5EE;margin-bottom:36px;position:relative;z-index:1}
+[data-theme="dark"] .hh1{color:var(--txt)}
+.hh1 .ital{font-style:italic;color:var(--gold);display:block}
+.hh1 .outl{-webkit-text-stroke:2px var(--gold);color:transparent;display:block}
+.hp{font-size:15px;line-height:1.9;color:rgba(248,245,238,.55);max-width:400px;margin-bottom:52px;position:relative;z-index:1}
+[data-theme="dark"] .hp{color:var(--txt3)}
+.hbtns{display:flex;flex-wrap:wrap;gap:16px;position:relative;z-index:1}
+.bgold{display:inline-flex;align-items:center;gap:12px;padding:17px 40px;background:var(--gold);color:var(--txti);font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase;transition:all var(--tr);position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.bgold::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity var(--tr)}
+.bgold:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(196,151,58,.45)}
+[data-theme="dark"] .bgold:hover{box-shadow:0 16px 48px rgba(74,158,232,.45)}
+.bgold:hover::before{opacity:1}
+.bghost{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border:1px solid rgba(248,245,238,.2);color:rgba(248,245,238,.7);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all var(--tr)}
+.bghost:hover{border-color:var(--gold);color:var(--gold)}
+.hbadges{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;position:relative;z-index:1}
+.badge{display:flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid rgba(196,151,58,.2);background:rgba(196,151,58,.05);font-size:11px;font-weight:600;color:rgba(248,245,238,.55);letter-spacing:1px}
+[data-theme="dark"] .badge{border-color:rgba(74,158,232,.2);background:rgba(74,158,232,.05);color:var(--txt3)}
+.badge i{color:var(--gold);font-size:10px}
+.scroll-ind{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:10}
+.sline{width:1px;height:44px;background:linear-gradient(180deg,var(--gold),transparent);animation:sp 2s ease-in-out infinite}
+@keyframes sp{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
+.stxt{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--txt3)}
+
+/* HERO RIGHT */
+.hpl{background:var(--bg2);display:flex;align-items:center;justify-content:center;padding:110px 48px 64px;position:relative;overflow:hidden}
+.hpl::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--brd2) 1px,transparent 1px),linear-gradient(90deg,var(--brd2) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hpl::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,151,58,.08),transparent 70%);pointer-events:none}
+[data-theme="dark"] .hpl::after{background:radial-gradient(circle,rgba(74,158,232,.1),transparent 70%)}
+.hcwrap{position:relative;width:100%;max-width:420px;z-index:1}
+.hcard{background:var(--surf);border:1px solid var(--brd);padding:40px;box-shadow:var(--shlg);position:relative}
+.hcard::before{content:'';position:absolute;top:0;right:0;width:48px;height:48px;background:var(--gold);clip-path:polygon(100% 0,100% 100%,0 0)}
+body.ltr .hcard::before{right:auto;left:0;clip-path:polygon(0 0,100% 0,0 100%)}
+.hcard::after{content:'';position:absolute;bottom:0;left:0;width:48px;height:48px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
+body.ltr .hcard::after{left:auto;right:0;border-left:none;border-right:2px solid var(--gold)}
+.ctit{font-family:'DM Serif Display',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--brd)}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--brd);margin-bottom:1px}
+.sbox{background:var(--surf);padding:24px 20px;text-align:center;transition:background var(--tr)}
+.sbox:hover{background:var(--surf2)}
+.snum{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--gold);line-height:1;display:block;margin-bottom:6px}
+.slbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)}
+.cdiv{height:1px;margin:28px 0;background:linear-gradient(90deg,var(--gold),transparent,var(--gold));opacity:.3}
+.srow{display:flex;justify-content:center;gap:4px;margin-bottom:10px}
+.srow i{color:var(--gold);font-size:14px}
+.cq{text-align:center;font-size:13px;font-style:italic;color:var(--txt3);font-family:'DM Serif Display',serif;line-height:1.7}
+.ftag{position:absolute;background:var(--surf);border:1px solid var(--brd);padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);box-shadow:var(--shmd);white-space:nowrap}
+.ft1{top:-24px;right:-24px}
+.ft2{bottom:-24px;left:-24px}
+body.ltr .ft1{right:auto;left:-24px}
+body.ltr .ft2{left:auto;right:-24px}
+
+/* TICKER */
+.twrap{background:var(--gold);padding:14px 0;overflow:hidden}
+[data-theme="dark"] .twrap{background:var(--goldd)}
+.ttrack{display:flex;animation:tick 22s linear infinite;white-space:nowrap}
+.ttrack:hover{animation-play-state:paused}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.titem{display:inline-flex;align-items:center;gap:20px;padding:0 40px;font-size:11px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--txti)}
+.tdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4);flex-shrink:0}
+
+/* DIVIDER */
+.divfull{height:1px;background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,var(--gold) 70%,transparent 100%);opacity:.22}
+
+/* SECTION */
+.sec{padding:100px 60px;max-width:1360px;margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ebar{width:24px;height:2px;background:var(--gold);flex-shrink:0}
+.etxt{font-size:10px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:var(--gold)}
+.sh2{font-family:'Playfair Display',serif;font-size:clamp(32px,4.5vw,58px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;color:var(--txt);margin-bottom:20px}
+.sh2 em{font-style:italic;color:var(--gold)}
+.ssub{font-size:15px;color:var(--txt3);line-height:1.8;max-width:520px}
+
+/* SERVICES */
+#services{background:var(--bg)}
+.svhdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;padding-bottom:28px;border-bottom:1px solid var(--brd)}
+.svcount{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;color:var(--gold);opacity:.1;line-height:1}
+.svgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd)}
+.svc{background:var(--surf);padding:48px 36px;position:relative;overflow:hidden;transition:all var(--tr);cursor:default}
+.svc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,151,58,.04),transparent);opacity:0;transition:opacity var(--tr)}
+[data-theme="dark"] .svc::before{background:linear-gradient(135deg,rgba(74,158,232,.06),transparent)}
+.svc:hover::before{opacity:1}
+.svc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .5s cubic-bezier(.4,0,.2,1);transform-origin:right}
+.svc:hover::after{transform:scaleX(1);transform-origin:left}
+.svc:hover{background:var(--surf2);transform:translateY(-4px);z-index:2;box-shadow:var(--shmd)}
+.sn{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;color:var(--gold);opacity:.06;position:absolute;top:8px;right:20px;line-height:1;pointer-events:none;transition:opacity var(--tr)}
+body.ltr .sn{right:auto;left:20px}
+.svc:hover .sn{opacity:.12}
+.siw{width:52px;height:52px;border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;margin-bottom:24px;background:var(--bg2);transition:all var(--tr)}
+.svc:hover .siw{background:var(--gold);border-color:var(--gold)}
+.siw i{color:var(--gold);font-size:20px;transition:color var(--tr)}
+.svc:hover .siw i{color:var(--txti)}
+.snm{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--txt);margin-bottom:12px}
+.sds{font-size:13.5px;line-height:1.85;color:var(--txt3)}
+
+/* WHY */
+#why{background:var(--txt);padding:100px 60px;position:relative;overflow:hidden;max-width:100%;margin:0}
+[data-theme="dark"] #why{background:var(--bg3)}
+#why::before{content:'★';position:absolute;font-size:900px;color:rgba(196,151,58,.02);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;line-height:1}
+[data-theme="dark"] #why::before{color:rgba(74,158,232,.02)}
+.winn{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center;position:relative;z-index:1}
+.wl .sh2{color:#F8F5EE}
+[data-theme="dark"] .wl .sh2{color:var(--txt)}
+.wl .ssub{color:rgba(248,245,238,.42);margin-top:20px}
+[data-theme="dark"] .wl .ssub{color:var(--txt3)}
+.witems{display:flex;flex-direction:column;gap:2px;background:rgba(196,151,58,.1)}
+[data-theme="dark"] .witems{background:rgba(74,158,232,.08)}
+.wi{background:rgba(28,20,8,.5);padding:28px 32px;display:flex;align-items:flex-start;gap:24px;border-right:2px solid transparent;transition:all var(--tr)}
+[data-theme="dark"] .wi{background:rgba(5,13,26,.5)}
+body.ltr .wi{border-right:none;border-left:2px solid transparent}
+.wi:hover{background:rgba(196,151,58,.05);border-right-color:var(--gold)}
+[data-theme="dark"] .wi:hover{background:rgba(74,158,232,.06)}
+body.ltr .wi:hover{border-right-color:transparent;border-left-color:var(--gold)}
+.wib{width:48px;height:48px;flex-shrink:0;border:1px solid rgba(196,151,58,.25);display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+[data-theme="dark"] .wib{border-color:rgba(74,158,232,.25)}
+.wi:hover .wib{background:var(--gold);border-color:var(--gold)}
+.wib i{color:var(--gold);font-size:18px;transition:color var(--tr)}
+.wi:hover .wib i{color:var(--txti)}
+.wih{font-family:'DM Serif Display',serif;font-size:17px;color:rgba(248,245,238,.9);margin-bottom:6px}
+[data-theme="dark"] .wih{color:var(--txt)}
+.wip{font-size:13px;line-height:1.75;color:rgba(248,245,238,.38)}
+[data-theme="dark"] .wip{color:var(--txt3)}
+
+/* PROCESS */
+#proc{background:var(--bg2)}
+.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
+.psteps::before{content:'';position:absolute;top:36px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
+.pstep{padding:0 24px;text-align:center;position:relative}
+.psn{width:72px;height:72px;border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;background:var(--surf);font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--gold);position:relative;z-index:1;transition:all var(--tr)}
+.pstep:hover .psn{background:var(--gold);color:var(--txti);border-color:var(--gold);box-shadow:0 0 0 8px rgba(196,151,58,.1)}
+[data-theme="dark"] .pstep:hover .psn{box-shadow:0 0 0 8px rgba(74,158,232,.1)}
+.pst{font-family:'DM Serif Display',serif;font-size:17px;color:var(--txt);margin-bottom:10px}
+.psd{font-size:13px;color:var(--txt3);line-height:1.75}
+
+/* CTA */
+#cta{background:var(--bg);padding:120px 60px;text-align:center;position:relative;overflow:hidden}
+#cta::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(196,151,58,.06),transparent 65%);pointer-events:none}
+[data-theme="dark"] #cta::before{background:radial-gradient(circle,rgba(74,158,232,.08),transparent 65%)}
+.cpill{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--txti);padding:8px 24px;font-size:10px;font-weight:800;letter-spacing:4px;text-transform:uppercase;margin-bottom:36px}
+.ch2{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,80px);font-weight:900;letter-spacing:-2px;line-height:.9;color:var(--txt);margin-bottom:24px}
+.ch2 em{font-style:italic;color:var(--gold)}
+.csub{font-size:16px;color:var(--txt3);margin-bottom:60px;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto}
+.bwa{display:inline-flex;align-items:center;gap:14px;padding:20px 56px;background:#25D366;color:#fff;font-size:14px;font-weight:800;letter-spacing:3px;text-transform:uppercase;transition:all var(--tr);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));box-shadow:0 8px 32px rgba(37,211,102,.25)}
+.bwa:hover{background:#1eb854;transform:translateY(-4px);box-shadow:0 20px 60px rgba(37,211,102,.4)}
+.bwa i{font-size:20px}
+.cfts{display:flex;justify-content:center;gap:36px;margin-top:52px;flex-wrap:wrap}
+.cft{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1px;color:var(--txt3)}
+.cft i{color:var(--gold)}
+
+/* FOOTER */
+footer{background:var(--txt);padding:52px 60px;position:relative}
+[data-theme="dark"] footer{background:var(--bg3)}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.finn{max-width:1360px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.flogo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;letter-spacing:8px;color:var(--gold)}
+.flinks{display:flex;gap:32px}
+.flink{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(248,245,238,.28);transition:color var(--tr)}
+[data-theme="dark"] .flink{color:var(--txt3)}
+.flink:hover{color:var(--gold)}
+.fcp{font-size:11px;letter-spacing:2px;color:rgba(248,245,238,.18)}
+[data-theme="dark"] .fcp{color:var(--txt3);opacity:.55}
+
+/* MOBILE */
+@media(max-width:900px){
+  #nav{padding:0 20px}
+  .ncenter{display:none}
+  #hero{grid-template-columns:1fr}
+  .hpd{padding:100px 28px 48px;min-height:65vh}
+  .hpl{padding:48px 28px 64px}
+  .svgrid{grid-template-columns:1fr}
+  .sec{padding:72px 28px}
+  .svhdr{flex-direction:column;align-items:flex-start;gap:20px}
+  .winn{grid-template-columns:1fr;gap:52px}
+  #why{padding:72px 28px}
+  .psteps{grid-template-columns:1fr 1fr;gap:40px}
+  .psteps::before{display:none}
+  #cta{padding:80px 28px}
+  footer{padding:40px 28px}
+  .finn{flex-direction:column;text-align:center}
+  .flinks{flex-wrap:wrap;justify-content:center}
+  .ft1,.ft2{display:none}
+  .hbadges{flex-wrap:wrap}
+  .hh1{font-size:clamp(44px,12vw,72px)}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nlogo">RIGHI</div>
+  <div class="ncenter">
+    <a href="#hero" class="nlink" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+    <a href="#services" class="nlink" data-ar="الخدمات" data-en="Services">الخدمات</a>
+    <a href="#why" class="nlink" data-ar="لماذا نحن" data-en="Why Us">لماذا نحن</a>
+    <a href="#cta" class="nlink" data-ar="اطلب الآن" data-en="Order">اطلب الآن</a>
+  </div>
+  <div class="nact">
+    <button class="cbtn" onclick="toggleLang()" id="lbtn"><i class="fa-solid fa-globe fa-sm"></i><span>EN</span></button>
+    <button class="cbtn" onclick="toggleTheme()" id="tbtn"><i class="fa-solid fa-moon fa-sm" id="tico"></i></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hpd">
+    <div class="hrow" data-aos="fade-right" data-aos-delay="100">
+      <div class="hbar"></div>
+      <span class="htag" data-ar="خدمات البحوث الجامعية" data-en="University Research Services">خدمات البحوث الجامعية</span>
+    </div>
+    <h1 class="hh1" data-aos="fade-right" data-aos-delay="200">
+      <span data-ar="نحن" data-en="We Are">نحن</span>
+      <span class="ital" data-ar="الأفضل" data-en="The Best">الأفضل</span>
+      <span class="outl" data-ar="دائماً" data-en="Always">دائماً</span>
+    </h1>
+    <p class="hp" data-aos="fade-right" data-aos-delay="300"
+       data-ar="نحن الأفضل في مجال خدمات البحوث الجامعية. اغتنم الفرصة وتميّز ببحثك مع فريق من الخبراء المتخصصين الذين يضمنون لك النجاح."
+       data-en="We are the best in university research services. Seize the opportunity and stand out with your research alongside a team of specialized experts who guarantee your success.">
+      نحن الأفضل في مجال خدمات البحوث الجامعية. اغتنم الفرصة وتميّز ببحثك مع فريق من الخبراء المتخصصين الذين يضمنون لك النجاح.
+    </p>
+    <div class="hbtns" data-aos="fade-right" data-aos-delay="400">
+      <a href="https://wa.me/213655295217" target="_blank" class="bgold">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span data-ar="اطلب الآن" data-en="Order Now">اطلب الآن</span>
+      </a>
+      <a href="#services" class="bghost">
+        <span data-ar="استكشف الخدمات" data-en="Explore Services">استكشف الخدمات</span>
+        <i class="fa-solid fa-arrow-left fa-sm" id="arrico"></i>
+      </a>
+    </div>
+    <div class="hbadges" data-aos="fade-up" data-aos-delay="500">
+      <div class="badge"><i class="fa-solid fa-shield-check fa-xs"></i><span data-ar="سرية تامة" data-en="100% Private">سرية تامة</span></div>
+      <div class="badge"><i class="fa-solid fa-bolt fa-xs"></i><span data-ar="تسليم سريع" data-en="Fast Delivery">تسليم سريع</span></div>
+      <div class="badge"><i class="fa-solid fa-star fa-xs"></i><span data-ar="جودة عالية" data-en="High Quality">جودة عالية</span></div>
+    </div>
+    <div class="scroll-ind">
+      <div class="stxt" data-ar="اسحب للأسفل" data-en="Scroll Down">اسحب للأسفل</div>
+      <div class="sline"></div>
+    </div>
+  </div>
+
+  <div class="hpl">
+    <div class="hcwrap" data-aos="fade-left" data-aos-delay="300">
+      <div class="ftag ft1">
+        <i class="fa-solid fa-circle-check" style="color:var(--gold);margin-left:6px;"></i>
+        <span data-ar="موثوق ومضمون" data-en="Trusted & Guaranteed">موثوق ومضمون</span>
+      </div>
+      <div class="hcard">
+        <div class="ctit" data-ar="إنجازاتنا بالأرقام" data-en="Our Achievements">إنجازاتنا بالأرقام</div>
+        <div class="sgrid">
+          <div class="sbox"><span class="snum">+500</span><span class="slbl" data-ar="بحث منجز" data-en="Projects Done">بحث منجز</span></div>
+          <div class="sbox"><span class="snum">98%</span><span class="slbl" data-ar="رضا العملاء" data-en="Satisfaction">رضا العملاء</span></div>
+          <div class="sbox"><span class="snum">+50</span><span class="slbl" data-ar="تخصص" data-en="Specialties">تخصص</span></div>
+          <div class="sbox"><span class="snum">24/7</span><span class="slbl" data-ar="دعم متواصل" data-en="Support">دعم متواصل</span></div>
+        </div>
+        <div class="cdiv"></div>
+        <div class="srow">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="cq" data-ar="تميّز ببحثك — جودة لا تُضاهى" data-en="Excel in your research — unmatched quality">تميّز ببحثك — جودة لا تُضاهى</p>
+      </div>
+      <div class="ftag ft2">
+        <i class="fa-solid fa-users" style="color:var(--gold);margin-left:6px;"></i>
+        <span data-ar="+500 طالب راضٍ" data-en="+500 Happy Students">+500 طالب راضٍ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="twrap">
+  <div class="ttrack">
+    <span class="titem"><span class="tdot"></span><span data-ar="كتابة البحوث" data-en="Research Writing">كتابة البحوث</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="تحليل البيانات" data-en="Data Analysis">تحليل البيانات</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="تصميم المذكرات" data-en="Thesis Design">تصميم المذكرات</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="المراجعة والتدقيق" data-en="Proofreading">المراجعة والتدقيق</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="الإطار النظري" data-en="Theoretical Framework">الإطار النظري</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="التحضير للمناقشة" data-en="Defense Prep">التحضير للمناقشة</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="كتابة البحوث" data-en="Research Writing">كتابة البحوث</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="تحليل البيانات" data-en="Data Analysis">تحليل البيانات</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="تصميم المذكرات" data-en="Thesis Design">تصميم المذكرات</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="المراجعة والتدقيق" data-en="Proofreading">المراجعة والتدقيق</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="الإطار النظري" data-en="Theoretical Framework">الإطار النظري</span></span>
+    <span class="titem"><span class="tdot"></span><span data-ar="التحضير للمناقشة" data-en="Defense Prep">التحضير للمناقشة</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services" style="background:var(--bg)">
+  <div class="sec">
+    <div class="svhdr">
+      <div>
+        <div class="eyebrow"><div class="ebar"></div><span class="etxt" data-ar="ما نقدمه" data-en="What We Offer">ما نقدمه</span></div>
+        <h2 class="sh2" data-ar="خدماتنا <em>المتخصصة</em>" data-en="Our <em>Specialized</em> Services">خدماتنا <em>المتخصصة</em></h2>
+      </div>
+      <div class="svcount">06</div>
+    </div>
+    <div class="svgrid">
+      <div class="svc" data-aos="fade-up" data-aos-delay="0"><span class="sn">01</span><div class="siw"><i class="fa-solid fa-pen-nib"></i></div><h3 class="snm" data-ar="كتابة البحوث" data-en="Research Writing">كتابة البحوث</h3><p class="sds" data-ar="نكتب بحثك من الصفر بأسلوب أكاديمي احترافي يلبي متطلبات جامعتك بدقة." data-en="We write your research from scratch in a professional academic style that precisely meets your university's requirements.">نكتب بحثك من الصفر بأسلوب أكاديمي احترافي يلبي متطلبات جامعتك بدقة.</p></div>
+      <div class="svc" data-aos="fade-up" data-aos-delay="80"><span class="sn">02</span><div class="siw"><i class="fa-solid fa-chart-bar"></i></div><h3 class="snm" data-ar="تحليل البيانات" data-en="Data Analysis">تحليل البيانات</h3><p class="sds" data-ar="تحليل إحصائي دقيق باستخدام SPSS وExcel مع تفسير واضح للنتائج." data-en="Precise statistical analysis using SPSS and Excel with clear interpretation of results.">تحليل إحصائي دقيق باستخدام SPSS وExcel مع تفسير واضح للنتائج.</p></div>
+      <div class="svc" data-aos="fade-up" data-aos-delay="160"><span class="sn">03</span><div class="siw"><i class="fa-solid fa-file-lines"></i></div><h3 class="snm" data-ar="تصميم المذكرات" data-en="Thesis Design">تصميم المذكرات</h3><p class="sds" data-ar="تنسيق احترافي للمذكرات والأطروحات وفق المعايير الأكاديمية المعتمدة." data-en="Professional formatting of theses and dissertations according to approved academic standards.">تنسيق احترافي للمذكرات والأطروحات وفق المعايير الأكاديمية المعتمدة.</p></div>
+      <div class="svc" data-aos="fade-up" data-aos-delay="0"><span class="sn">04</span><div class="siw"><i class="fa-solid fa-magnifying-glass"></i></div><h3 class="snm" data-ar="المراجعة والتدقيق" data-en="Proofreading">المراجعة والتدقيق</h3><p class="sds" data-ar="مراجعة لغوية وأكاديمية شاملة لبحثك لضمان الجودة والدقة العلمية." data-en="Comprehensive linguistic and academic review to ensure quality and scientific accuracy.">مراجعة لغوية وأكاديمية شاملة لبحثك لضمان الجودة والدقة العلمية.</p></div>
+      <div class="svc" data-aos="fade-up" data-aos-delay="80"><span class="sn">05</span><div class="siw"><i class="fa-solid fa-book-open"></i></div><h3 class="snm" data-ar="الإطار النظري" data-en="Theoretical Framework">الإطار النظري</h3><p class="sds" data-ar="بناء إطار نظري متكامل بمصادر موثوقة ومراجع أكاديمية معتمدة." data-en="Building a comprehensive theoretical framework with reliable sources and academic references.">بناء إطار نظري متكامل بمصادر موثوقة ومراجع أكاديمية معتمدة.</p></div>
+      <div class="svc" data-aos="fade-up" data-aos-delay="160"><span class="sn">06</span><div class="siw"><i class="fa-solid fa-microphone-lines"></i></div><h3 class="snm" data-ar="التحضير للمناقشة" data-en="Defense Prep">التحضير للمناقشة</h3><p class="sds" data-ar="تحضيرك للمناقشة الأكاديمية مع توقع الأسئلة وتدريبك على الإجابة باحتراف." data-en="Preparing you for the academic defense with question anticipation and professional training.">تحضيرك للمناقشة الأكاديمية مع توقع الأسئلة وتدريبك على الإجابة باحتراف.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="divfull"></div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="winn">
+    <div class="wl" data-aos="fade-right">
+      <div class="eyebrow"><div class="ebar"></div><span class="etxt" data-ar="لماذا تختارنا؟" data-en="Why Choose Us?">لماذا تختارنا؟</span></div>
+      <h2 class="sh2" data-ar="اغتنم <em>الفرصة</em><br>وتميّز" data-en="Seize the <em>Opportunity</em><br>& Excel">اغتنم <em>الفرصة</em><br>وتميّز</h2>
+      <p class="ssub" data-ar="فريقنا من حاملي الشهادات العليا يفهم متطلبات الجامعات الجزائرية ويضمن لك أعلى مستوى من الجودة الأكاديمية." data-en="Our team of postgraduate degree holders understands Algerian university requirements and guarantees you the highest level of academic quality.">فريقنا من حاملي الشهادات العليا يفهم متطلبات الجامعات الجزائرية ويضمن لك أعلى مستوى من الجودة الأكاديمية.</p>
+    </div>
+    <div class="witems" data-aos="fade-left">
+      <div class="wi"><div class="wib"><i class="fa-solid fa-bolt"></i></div><div><div class="wih" data-ar="سرعة في التسليم" data-en="Fast Delivery">سرعة في التسليم</div><div class="wip" data-ar="نلتزم بالمواعيد المحددة ونسلم عملك في الوقت المطلوب بدون أي تأخير مهما كان الضغط." data-en="We commit to deadlines and deliver your work on time without any delay regardless of pressure.">نلتزم بالمواعيد المحددة ونسلم عملك في الوقت المطلوب بدون أي تأخير مهما كان الضغط.</div></div></div>
+      <div class="wi"><div class="wib"><i class="fa-solid fa-trophy"></i></div><div><div class="wih" data-ar="جودة أكاديمية لا تُضاهى" data-en="Unmatched Academic Quality">جودة أكاديمية لا تُضاهى</div><div class="wip" data-ar="فريقنا من حاملي الدكتوراه والماجستير يضمن لك أبحاثاً بمعايير دولية عالية." data-en="Our PhD and Master's holders guarantee research meeting high international standards.">فريقنا من حاملي الدكتوراه والماجستير يضمن لك أبحاثاً بمعايير دولية عالية.</div></div></div>
+      <div class="wi"><div class="wib"><i class="fa-solid fa-lock"></i></div><div><div class="wih" data-ar="سرية تامة ومضمونة" data-en="Full Confidentiality">سرية تامة ومضمونة</div><div class="wip" data-ar="معلوماتك وبحثك محمية تمامًا ولا تُشارك مع أي طرف ثالث تحت أي ظرف." data-en="Your information and research are fully protected and never shared with any third party.">معلوماتك وبحثك محمية تمامًا ولا تُشارك مع أي طرف ثالث تحت أي ظرف.</div></div></div>
+      <div class="wi"><div class="wib"><i class="fa-solid fa-headset"></i></div><div><div class="wih" data-ar="دعم على مدار الساعة" data-en="24/7 Support">دعم على مدار الساعة</div><div class="wip" data-ar="فريق الدعم متاح 24/7 للإجابة على استفساراتك وتحديثك على تقدم عملك." data-en="Support team available 24/7 to answer your inquiries and update you on your work's progress.">فريق الدعم متاح 24/7 للإجابة على استفساراتك وتحديثك على تقدم عملك.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divfull"></div>
+
+<!-- PROCESS -->
+<div id="proc" style="background:var(--bg2)">
+  <div class="sec">
+    <div style="text-align:center">
+      <div class="eyebrow" style="justify-content:center"><div class="ebar"></div><span class="etxt" data-ar="كيف نعمل؟" data-en="How It Works?">كيف نعمل؟</span><div class="ebar"></div></div>
+      <h2 class="sh2" data-ar="خطوات <em>بسيطة</em>" data-en="<em>Simple</em> Steps">خطوات <em>بسيطة</em></h2>
+    </div>
+    <div class="psteps">
+      <div class="pstep" data-aos="fade-up" data-aos-delay="0"><div class="psn">01</div><div class="pst" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</div><div class="psd" data-ar="أرسل لنا رسالة على واتساب مع تفاصيل بحثك." data-en="Send us a WhatsApp message with your research details.">أرسل لنا رسالة على واتساب مع تفاصيل بحثك.</div></div>
+      <div class="pstep" data-aos="fade-up" data-aos-delay="100"><div class="psn">02</div><div class="pst" data-ar="التقييم المجاني" data-en="Free Assessment">التقييم المجاني</div><div class="psd" data-ar="نقيّم طلبك ونرسل لك عرضاً مفصلاً مجاناً." data-en="We assess your request and send a detailed offer for free.">نقيّم طلبك ونرسل لك عرضاً مفصلاً مجاناً.</div></div>
+      <div class="pstep" data-aos="fade-up" data-aos-delay="200"><div class="psn">03</div><div class="pst" data-ar="التنفيذ الاحترافي" data-en="Professional Work">التنفيذ الاحترافي</div><div class="psd" data-ar="يبدأ فريقنا العمل فور الموافقة بأعلى معايير الجودة." data-en="Our team starts immediately with the highest quality standards.">يبدأ فريقنا العمل فور الموافقة بأعلى معايير الجودة.</div></div>
+      <div class="pstep" data-aos="fade-up" data-aos-delay="300"><div class="psn">04</div><div class="pst" data-ar="التسليم والمتابعة" data-en="Delivery & Follow-up">التسليم والمتابعة</div><div class="psd" data-ar="نسلمك العمل في الموعد مع متابعة مجانية حتى تحقيق النجاح." data-en="We deliver on time with free follow-up until success.">نسلمك العمل في الموعد مع متابعة مجانية حتى تحقيق النجاح.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divfull"></div>
+
+<!-- CTA -->
+<section id="cta">
+  <div data-aos="fade-up">
+    <div class="cpill"><i class="fa-solid fa-fire-flame-curved fa-sm"></i><span data-ar="لا تتأخر" data-en="Don't Wait">لا تتأخر</span></div>
+    <h2 class="ch2" data-ar='تميّز <em>ببحثك</em><br>اليوم' data-en='Excel in Your<br><em>Research</em> Today'>تميّز <em>ببحثك</em><br>اليوم</h2>
+    <p class="csub" data-ar="تواصل معنا الآن عبر واتساب واحصل على استشارة مجانية — نحن هنا لنجعل بحثك مميزاً." data-en="Contact us now via WhatsApp and get a free consultation — we're here to make your research stand out.">تواصل معنا الآن عبر واتساب واحصل على استشارة مجانية — نحن هنا لنجعل بحثك مميزاً.</p>
+    <a href="https://wa.me/213655295217" target="_blank" class="bwa">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span data-ar="ابدأ محادثة الآن" data-en="Start a Chat Now">ابدأ محادثة الآن</span>
+    </a>
+    <div class="cfts">
+      <div class="cft"><i class="fa-solid fa-circle-check"></i><span data-ar="استشارة مجانية" data-en="Free Consultation">استشارة مجانية</span></div>
+      <div class="cft"><i class="fa-solid fa-circle-check"></i><span data-ar="بدون تسجيل" data-en="No Registration">بدون تسجيل</span></div>
+      <div class="cft"><i class="fa-solid fa-circle-check"></i><span data-ar="رد فوري" data-en="Instant Reply">رد فوري</span></div>
+      <div class="cft"><i class="fa-solid fa-circle-check"></i><span data-ar="ضمان الجودة" data-en="Quality Guarantee">ضمان الجودة</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="finn">
+    <div class="flogo">RIGHI</div>
+    <div class="flinks">
+      <a href="#services" class="flink" data-ar="الخدمات" data-en="Services">الخدمات</a>
+      <a href="#why" class="flink" data-ar="لماذا نحن" data-en="Why Us">لماذا نحن</a>
+      <a href="https://wa.me/213655295217" target="_blank" class="flink">WhatsApp</a>
+    </div>
+    <div class="fcp" data-ar="© 2025 RIGHI — جميع الحقوق محفوظة" data-en="© 2025 RIGHI — All Rights Reserved">© 2025 RIGHI — جميع الحقوق محفوظة</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({once:true,offset:60,duration:700});
+
+// NAV SCROLL
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// THEME
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('tico').className=dark?'fa-solid fa-sun fa-sm':'fa-solid fa-moon fa-sm';
+}
+
+// LANG
+let ar=true;
+function toggleLang(){
+  ar=!ar;
+  const l=ar?'ar':'en';
+  document.documentElement.setAttribute('lang',ar?'ar':'en');
+  document.documentElement.setAttribute('dir',ar?'rtl':'ltr');
+  document.body.classList.toggle('ltr',!ar);
+  document.getElementById('lbtn').querySelector('span').textContent=ar?'EN':'ع';
+  document.querySelectorAll('[data-ar]').forEach(el=>{
+    const v=el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML=v;
+  });
+  // arrow direction
+  const ari=document.getElementById('arrico');
+  if(ari) ari.className=ar?'fa-solid fa-arrow-left fa-sm':'fa-solid fa-arrow-right fa-sm';
+}
+
+// ACTIVE NAV
+const secs=document.querySelectorAll('section[id],div[id]');
+const nls=document.querySelectorAll('.nlink');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      nls.forEach(l=>l.classList.remove('act'));
+      const a=document.querySelector(`.nlink[href="#${e.target.id}"]`);
+      if(a) a.classList.add('act');
+    }
+  });
+},{threshold:.4});
+secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
