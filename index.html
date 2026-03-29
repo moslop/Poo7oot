@@ -11,25 +11,27 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <style>
 :root {
-  --bg:#FAFAF8; --bg2:#F4F1EA; --bg3:#EDE7D6;
-  --surf:#FFFFFF; --surf2:#F9F7F2;
+  --bg:#FFFFFF; --bg2:#F9F7F2; --bg3:#F4F1EA;
+  --surf:#FFFFFF; --surf2:#FDFCFB;
   --gold:#C4973A; --gold2:#E2B455; --gold3:#F5D08A; --goldd:#8A6420;
-  --txt:#1C1408; --txt2:#4A3B18; --txt3:#7A6540; --txti:#FAFAF8;
+  --flame:#f97316;
+  --txt:#1C1408; --txt2:#4A3B18; --txt3:#7A6540; --txti:#FFFFFF;
   --brd:rgba(196,151,58,.2); --brd2:rgba(196,151,58,.07);
   --shsm:0 2px 12px rgba(139,100,32,.08);
   --shmd:0 8px 40px rgba(139,100,32,.12);
   --shlg:0 24px 80px rgba(139,100,32,.16);
-  --tr:.35s cubic-bezier(.4,0,.2,1);
+  --tr:.3s ease;
 }
 [data-theme="dark"]{
-  --bg:#050D1A; --bg2:#071224; --bg3:#0A1930;
-  --surf:#0D2040; --surf2:#102448;
-  --gold:#4A9EE8; --gold2:#6DB8F5; --gold3:#9ED0FF; --goldd:#1A6BB5;
-  --txt:#E8F2FF; --txt2:#A8C8F0; --txt3:#6090C8; --txti:#050D1A;
-  --brd:rgba(74,158,232,.2); --brd2:rgba(74,158,232,.07);
-  --shsm:0 2px 12px rgba(0,20,60,.3);
-  --shmd:0 8px 40px rgba(0,20,60,.4);
-  --shlg:0 24px 80px rgba(0,20,60,.5);
+  --bg:#060912; --bg2:#0a0f1e; --bg3:#0f1629;
+  --surf:rgba(15,22,41,0.75); --surf2:rgba(30,45,74,0.6);
+  --gold:#2563eb; --gold2:#3b82f6; --gold3:#60a5fa; --goldd:#1e2d4a;
+  --flame:#f97316;
+  --txt:#f1f5f9; --txt2:#94a3b8; --txt3:#64748b; --txti:#060912;
+  --brd:rgba(255,255,255,0.07); --brd2:rgba(255,255,255,0.04);
+  --shsm:0 2px 12px rgba(0,0,0,0.3);
+  --shmd:0 8px 40px rgba(0,0,0,0.4);
+  --shlg:0 24px 80px rgba(0,0,0,0.5);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -41,12 +43,26 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
+/* MESH BACKGROUND */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 5%,  rgba(37,99,235,0.18) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 85%, rgba(249,115,22,0.13) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 30% at 60% 40%, rgba(37,99,235,0.07) 0%,transparent 45%);
+  pointer-events:none;z-index:0;
+  opacity:0;transition:opacity var(--tr);
+}
+[data-theme="dark"] body::before{opacity:1}
+body>*{position:relative;z-index:1}
+
 /* NOISE */
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.45}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:rgba(250,250,248,.85);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--brd);transition:all var(--tr)}
-[data-theme="dark"] #nav{background:rgba(5,13,26,.9)}
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:rgba(255,255,255,.85);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--brd);transition:all var(--tr)}
+[data-theme="dark"] #nav{background:var(--surf);border-color:var(--brd);backdrop-filter:blur(20px)}
 #nav.scrolled{height:60px;box-shadow:var(--shsm)}
 .nlogo{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;letter-spacing:8px;color:var(--gold);text-transform:uppercase;position:relative}
 .nlogo::before{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
@@ -98,7 +114,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .hpl::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,151,58,.08),transparent 70%);pointer-events:none}
 [data-theme="dark"] .hpl::after{background:radial-gradient(circle,rgba(74,158,232,.1),transparent 70%)}
 .hcwrap{position:relative;width:100%;max-width:420px;z-index:1}
-.hcard{background:var(--surf);border:1px solid var(--brd);padding:40px;box-shadow:var(--shlg);position:relative}
+.hcard{background:var(--surf);border:1px solid var(--brd);padding:40px;box-shadow:var(--shlg);position:relative;transition:all var(--tr)}
+[data-theme="dark"] .hcard{backdrop-filter:blur(18px)}
 .hcard::before{content:'';position:absolute;top:0;right:0;width:48px;height:48px;background:var(--gold);clip-path:polygon(100% 0,100% 100%,0 0)}
 body.ltr .hcard::before{right:auto;left:0;clip-path:polygon(0 0,100% 0,0 100%)}
 .hcard::after{content:'';position:absolute;bottom:0;left:0;width:48px;height:48px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
@@ -145,7 +162,8 @@ body.ltr .ft2{left:auto;right:-24px}
 .svhdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;padding-bottom:28px;border-bottom:1px solid var(--brd)}
 .svcount{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;color:var(--gold);opacity:.1;line-height:1}
 .svgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd)}
-.svc{background:var(--surf);padding:48px 36px;position:relative;overflow:hidden;transition:all var(--tr);cursor:default}
+.svc{background:var(--surf);padding:48px 36px;position:relative;overflow:hidden;transition:all var(--tr);cursor:default;border:1px solid transparent}
+[data-theme="dark"] .svc{backdrop-filter:blur(18px);border-color:var(--brd)}
 .svc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,151,58,.04),transparent);opacity:0;transition:opacity var(--tr)}
 [data-theme="dark"] .svc::before{background:linear-gradient(135deg,rgba(74,158,232,.06),transparent)}
 .svc:hover::before{opacity:1}
@@ -264,6 +282,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;back
     <a href="#cta" class="nlink" data-ar="اطلب الآن" data-en="Order">اطلب الآن</a>
   </div>
   <div class="nact">
+    <a href="https://wa.me/213655295217" target="_blank" class="cbtn" data-ar="إرسال طلب" data-en="Send Request"><span>إرسال طلب</span></a>
     <button class="cbtn" onclick="toggleLang()" id="lbtn"><i class="fa-solid fa-globe fa-sm"></i><span>EN</span></button>
     <button class="cbtn" onclick="toggleTheme()" id="tbtn"><i class="fa-solid fa-moon fa-sm" id="tico"></i></button>
   </div>
@@ -289,6 +308,9 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;back
     <div class="hbtns" data-aos="fade-right" data-aos-delay="400">
       <a href="https://wa.me/213655295217" target="_blank" class="bgold">
         <i class="fa-brands fa-whatsapp"></i>
+        <span data-ar="إرسال طلب" data-en="Send Request">إرسال طلب</span>
+      </a>
+      <a href="https://wa.me/213655295217" target="_blank" class="bghost">
         <span data-ar="اطلب الآن" data-en="Order Now">اطلب الآن</span>
       </a>
       <a href="#services" class="bghost">
@@ -472,7 +494,15 @@ function toggleLang(){
   document.getElementById('lbtn').querySelector('span').textContent=ar?'EN':'ع';
   document.querySelectorAll('[data-ar]').forEach(el=>{
     const v=el.getAttribute('data-'+l);
-    if(v!==null) el.innerHTML=v;
+    if(v!==null) {
+      if(el.querySelector('span')) el.querySelector('span').innerHTML=v;
+      else if(el.querySelector('i')) {
+         // preserve icon if exists
+         const icon = el.querySelector('i').outerHTML;
+         el.innerHTML = icon + ' ' + v;
+      }
+      else el.innerHTML=v;
+    }
   });
   // arrow direction
   const ari=document.getElementById('arrico');
